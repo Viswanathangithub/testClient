@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -22,6 +21,9 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 
 	@Autowired
 	private TokenStore tokenStore;
+	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
 	@Autowired
 	private UserApprovalHandler userApprovalHandler;
@@ -32,7 +34,6 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		clients.inMemory().withClient("clientId")
 		.authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
 		.secret(encoder.encode("clientSecret"))

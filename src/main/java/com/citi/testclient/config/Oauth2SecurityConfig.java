@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
@@ -28,6 +27,9 @@ public class Oauth2SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private ClientDetailsService clientDetailsService;
+	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
 	@Override
 	@Bean
@@ -37,10 +39,8 @@ public class Oauth2SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		auth.inMemoryAuthentication()
-		.withUser("bill").password(encoder.encode("abc123")).roles("ADMIN").and()
-		.withUser("bob").password(encoder.encode("abc123")).roles("USER");
+		.withUser("admin").password(encoder.encode("admin")).roles("ADMIN");
 	}
 
 	@Override
