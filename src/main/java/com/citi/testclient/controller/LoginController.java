@@ -17,6 +17,7 @@ import com.citi.testclient.request.LoginRequest;
 import com.citi.testclient.service.LoginServiceImpl;
 
 @RestController
+@RequestMapping("/users")
 public class LoginController {
 
 	@Autowired
