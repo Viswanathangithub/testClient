@@ -15,14 +15,16 @@ public class LoginRepository {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
-	public List<UserDetails> findByUserName(LoginRequest loginRequest) {
+	/**
+	 * Search by User Id and Password
+	 * @param loginRequest
+	 * @return
+	 */
+	public List<UserDetails> findByCredentials(LoginRequest loginRequest) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("userName").is(loginRequest.getUserName()))
+		query.addCriteria(Criteria.where("userId").is(loginRequest.getUserId()))
 			 .addCriteria(Criteria.where("password").is(loginRequest.getPassword()));
 		return mongoTemplate.find(query, UserDetails.class);
-
-
-
 	}
 
 }

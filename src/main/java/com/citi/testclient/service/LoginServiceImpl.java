@@ -15,8 +15,13 @@ public class LoginServiceImpl {
 	@Autowired
 	private LoginRepository loginRepository;
 	
+	/**
+	 * Search By User Id and Password
+	 * @param loginRequest
+	 * @return
+	 */
 	public List<UserDetails> getLoginDetails(LoginRequest loginRequest) {
-		return loginRepository.findByUserName(loginRequest);
+		return loginRepository.findByCredentials(loginRequest);
 	}
 
 }
